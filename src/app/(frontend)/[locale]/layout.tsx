@@ -1,6 +1,5 @@
 // eslint-disable-next-line
 import { GeistMono } from "geist/font/mono";
-// eslint-disable-next-line
 import { GeistSans } from "geist/font/sans";
 // import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
@@ -20,6 +19,7 @@ import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
 import { cn } from "src/utilities/cn";
 
 import type { Metadata } from "next";
+import { AdminBar } from "@/components/AdminBar";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -34,6 +34,7 @@ export default async function RootLayout({
 }) {
   // const { isEnabled } = await draftMode();
   const { locale } = await params;
+  // console.log("Locale in layout:", locale);
 
   if (!routing.locales.includes(locale as Locale)) {
     notFound();
@@ -42,7 +43,7 @@ export default async function RootLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages({ locale });
-
+   
   return (
     <html
       className={cn(GeistSans.variable, GeistMono.variable, "twp overflow-x-clip lg:overflow-y-scroll")}
@@ -65,10 +66,10 @@ export default async function RootLayout({
             />
             <NextIntlClientProvider locale={locale} messages={messages}>
               {/* <AdminBar
-              adminBarProps={{
-                preview: isEnabled,
-              }}
-            /> */}
+                adminBarProps={{
+                 // preview: isEnabled,
+                }}
+              /> */}
               {/* {isEnabled && <LivePreviewListener />} */}
               {children}
               <Footer />

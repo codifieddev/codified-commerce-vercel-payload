@@ -15,6 +15,20 @@ import { cn } from "@/utilities/cn";
 
 import { Search } from "../components/Search";
 
+  const leftNav = [
+    {
+      label: "Noževi",
+      children: [
+        { label: "Petty", href: "/petty" },
+        { label: "Gyuto", href: "/gyuto" },
+        { label: "Santoku", href: "/santoku" },
+        { label: "Nakiri", href: "/nakiri" },
+      ],
+    },
+    { label: "O Noževima", href: "/o-nozevima" },
+    { label: "O Karlo Banu", href: "/o-karlo-banu" },
+    { label: "Što drugi kažu", href: "/recenzije" },
+  ];
 export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart?: boolean }) => {
   const [isMenuOpened, setisMenuOpened] = useState(false);
   const [scrollValue, setScrollValue] = useState(0);
@@ -67,25 +81,86 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
   );
 
   return (
-    <header className={classes} style={data.background ? { background: data.background } : {}}>
+    <header
+      className={classes}
+      style={data.background ? { background: data.background } : { background: "rgba(0,0,0,0.92)" }}
+    >
       <div
-        className={`container relative flex w-full items-center py-6 lg:gap-8 ${scrollValue > 0 ? "scrolled" : ""} ${isMenuOpened ? "opened" : ""}`}
+        className={`container relative flex w-full items-center justify-between py-4 lg:gap-8 ${scrollValue > 0 ? "scrolled" : ""} ${isMenuOpened ? "opened" : ""}`}
       >
-        <Link href="/" className="mr-auto">
-          {data.logo && typeof data.logo !== "string" && data.logo.url && data.logo.alt ? (
-            <Media
-              resource={data.logo}
-              className={cn(isMenuOpened && "invert lg:invert-0", "-my-7 h-[88px] w-full max-w-37.5")}
-              imgClassName="h-[88px] w-full max-w-37.5"
-            />
-          ) : (
-            <Logo />
+        {/* Logo and Nav */}
+        <div className="flex items-center gap-8 min-w-0">
+          <Link href="/" className="flex-shrink-0">
+            {data.logo && typeof data.logo !== "string" && data.logo.url && data.logo.alt ? (
+              <Media
+                resource={data.logo}
+                className={cn(isMenuOpened && "invert lg:invert-0", "h-[56px] w-auto max-w-[160px]")}
+                imgClassName="h-[56px] w-auto max-w-[160px]"
+              />
+            ) : (
+              <Logo />
+            )}
+          </Link>
+          <nav className="hidden lg:flex items-center gap-6">
+            {leftNav.map((item, i) => {
+              if (item.children) {
+                return (
+                  <div key={i} className="group relative">
+                    <span className="cursor-pointer text-white font-semibold px-2 py-1 rounded hover:bg-white/10 transition-colors">{item.label}</span>
+                    <div className="absolute left-0 top-full z-20 hidden min-w-[160px] flex-col gap-2 rounded bg-white py-2 px-4 shadow-lg group-hover:flex mt-2">
+                      {item.children.map((child, j) => (
+                        <Link key={j} href={child.href} className="block py-1 px-2 text-black hover:bg-gray-100 rounded">
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <Link key={i} href={item.href} className="text-white font-semibold px-2 py-1 rounded hover:bg-white/10 transition-colors">
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+        {/* Search Bar */}
+        <div className="flex flex-1 justify-center items-center min-w-0 max-w-2xl px-2">
+          <div className="w-full">
+            <Search />
+          </div>
+        </div>
+        {/* Icons */}
+        <div className="flex items-center gap-4">
+          <Link href="/account/orders" className="-m-2 cursor-pointer p-2">
+            <UserIcon color="white" width={24} height={24} />
+          </Link>
+          {!disableCart && (
+            <>
+              <button onClick={toggleWishList} className="relative -m-2 cursor-pointer p-2">
+                {wishlist && wishlist.length > 0 ? (
+                  <span className="absolute right-0 top-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full bg-main-600 text-xs text-white">
+                    {wishlist.length}
+                  </span>
+                ) : null}
+                <HeartIcon color="white" width={24} height={24} />
+              </button>
+              <button onClick={toggleCart} className="relative -m-2 cursor-pointer p-2">
+                {totalQuantity && totalQuantity > 0 ? (
+                  <span className="absolute right-0 top-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full bg-main-600 text-xs text-white">
+                    {totalQuantity}
+                  </span>
+                ) : null}
+                <ShoppingBagIcon color="white" width={24} height={24} />
+              </button>
+            </>
           )}
-        </Link>
-        <Search />
+        </div>
+        {/* Mobile Nav Toggle */}
         <button
           aria-label="Toggle Menu"
-          className="z-20 order-1 ml-8 flex flex-col items-end justify-center gap-[6px] lg:hidden"
+          className="z-20 order-1 ml-4 flex flex-col items-end justify-center gap-[6px] lg:hidden"
           onClick={toggleMenu}
         >
           <div
@@ -98,45 +173,34 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
             className={`h-[3px] w-7 rounded-full bg-white transition-transform ${isMenuOpened && "absolute top-1/2 -translate-y-1/2 -rotate-45 invert"}`}
           />
         </button>
+        {/* Mobile Nav Drawer */}
         <nav
-          className={`absolute left-1/2 top-0 z-10 flex origin-bottom transition-opacity duration-300 lg:z-10 ${isMenuOpened ? "opacity-100" : "scale-y-0 opacity-0"} h-dvh w-screen -translate-x-1/2 flex-col items-start justify-between bg-white p-8 pb-16 md:p-12 lg:static lg:h-auto lg:w-fit lg:translate-x-0 lg:scale-100 lg:flex-row lg:bg-transparent lg:p-0 lg:opacity-100`}
+          className={`fixed left-0 top-0 z-30 flex flex-col items-start w-full h-dvh bg-white p-8 pb-16 transition-transform duration-300 lg:hidden ${isMenuOpened ? "translate-x-0" : "-translate-x-full"}`}
         >
-          <div className="flex flex-col items-start gap-12 pt-24 lg:flex-row lg:pt-0">
-            {data.navItems?.map(({ link }, i) => {
-              return <CMSLink key={i} {...link} appearance="link" className="text-black lg:text-white" />;
+          <div className="flex flex-col gap-8 w-full pt-16">
+            {leftNav.map((item, i) => {
+              if (item.children) {
+                return (
+                  <div key={i} className="group relative">
+                    <span className="cursor-pointer text-black font-semibold">{item.label}</span>
+                    <div className="flex flex-col gap-2 pl-4 mt-2">
+                      {item.children.map((child, j) => (
+                        <Link key={j} href={child.href} className="block py-1 px-2 text-black hover:bg-gray-100 rounded">
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <Link key={i} href={item.href} className="text-black font-semibold">
+                  {item.label}
+                </Link>
+              );
             })}
           </div>
         </nav>
-        <div className="flex gap-5">
-          <Link href="/account/orders" className="-m-2 cursor-pointer p-2">
-            <UserIcon color="white" width={24} height={24} />
-          </Link>
-          {!disableCart && (
-            <>
-              <button onClick={toggleWishList} className="relative -m-2 cursor-pointer p-2">
-                {wishlist && wishlist.length > 0 ? (
-                  <span className="absolute right-0 top-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full bg-main-600 text-xs text-white">
-                    {wishlist.length}
-                  </span>
-                ) : (
-                  ""
-                )}
-                <HeartIcon color="white" width={24} height={24} />
-              </button>
-              <button onClick={toggleCart} className="relative -m-2 cursor-pointer p-2">
-                {totalQuantity && totalQuantity > 0 ? (
-                  <span className="absolute right-0 top-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full bg-main-600 text-xs text-white">
-                    {totalQuantity}
-                  </span>
-                ) : (
-                  ""
-                )}
-                <ShoppingBagIcon color="white" width={24} height={24} />
-              </button>
-            </>
-          )}
-        </div>
-        <CMSLink className="ml-auto hidden md:flex" />
         <div className="backdrop_blur absolute left-1/2 -z-30 h-full w-full -translate-x-1/2" />
       </div>
     </header>
