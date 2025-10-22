@@ -1,6 +1,13 @@
-// eslint-disable-next-line
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
+import { Inter } from "next/font/google";
+
+// Use Inter as a modern sans-serif replacement for GeistSans
+const GeistSans = Inter({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+  display: "swap",
+});
+
+// Remove GeistMono if not used elsewhere, or replace similarly if needed
 // import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
@@ -46,7 +53,7 @@ export default async function RootLayout({
    
   return (
     <html
-      className={cn(GeistSans.variable, GeistMono.variable, "twp overflow-x-clip lg:overflow-y-scroll")}
+      className={cn(GeistSans.variable, "twp overflow-x-clip lg:overflow-y-scroll")}
       lang={locale}
       // data-thmee="light"
       // suppressHydrationWarning

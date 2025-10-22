@@ -126,9 +126,6 @@
     "typescript": "5.7.2",
     "typescript-eslint": "^8.37.0"
   },
-  "resolutions": {
-    "prettier": "3.6.2"
-  },
   "engines": {
     "node": "^18.20.2 || >=20.9.0"
   },
