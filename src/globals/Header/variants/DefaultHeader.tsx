@@ -15,20 +15,20 @@ import { cn } from "@/utilities/cn";
 
 import { Search } from "../components/Search";
 
-  const leftNav = [
-    {
-      label: "Noževi",
-      children: [
-        { label: "Petty", href: "/petty" },
-        { label: "Gyuto", href: "/gyuto" },
-        { label: "Santoku", href: "/santoku" },
-        { label: "Nakiri", href: "/nakiri" },
-      ],
-    },
-    { label: "O Noževima", href: "/o-nozevima" },
-    { label: "O Karlo Banu", href: "/o-karlo-banu" },
-    { label: "Što drugi kažu", href: "/recenzije" },
-  ];
+const leftNav = [
+  {
+    label: "Noževi",
+    children: [
+      { label: "Petty", href: "/petty" },
+      { label: "Gyuto", href: "/gyuto" },
+      { label: "Santoku", href: "/santoku" },
+      { label: "Nakiri", href: "/nakiri" },
+    ],
+  },
+  { label: "O Noževima", href: "/o-nozevima" },
+  { label: "O Karlo Banu", href: "/o-karlo-banu" },
+  { label: "Što drugi kažu", href: "/recenzije" },
+];
 export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart?: boolean }) => {
   const [isMenuOpened, setisMenuOpened] = useState(false);
   const [scrollValue, setScrollValue] = useState(0);
@@ -80,16 +80,16 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
     `${data.hideOnScroll && scrollDown ? "-translate-y-full md:-translate-y-full" : ""}`,
   );
 
+  // Normalize background style for hydration
+  const headerStyle = data.background ? { background: data.background } : { background: "rgba(0,0,0,0.92)" };
+
   return (
-    <header
-      className={classes}
-      style={data.background ? { background: data.background } : { background: "rgba(0,0,0,0.92)" }}
-    >
+    <header className={classes} style={headerStyle}>
       <div
-        className={`container relative flex w-full items-center justify-between py-4 lg:gap-8 ${scrollValue > 0 ? "scrolled" : ""} ${isMenuOpened ? "opened" : ""}`}
+        className={`relative container flex w-full items-center justify-between py-4 lg:gap-8 ${scrollValue > 0 ? "scrolled" : ""} ${isMenuOpened ? "opened" : ""}`}
       >
         {/* Logo and Nav */}
-        <div className="flex items-center gap-8 min-w-0">
+        <div className="flex min-w-0 items-center gap-8">
           <Link href="/" className="flex-shrink-0">
             {data.logo && typeof data.logo !== "string" && data.logo.url && data.logo.alt ? (
               <Media
@@ -101,15 +101,21 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
               <Logo />
             )}
           </Link>
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden items-center gap-6 lg:flex">
             {leftNav.map((item, i) => {
               if (item.children) {
                 return (
                   <div key={i} className="group relative">
-                    <span className="cursor-pointer text-white font-semibold px-2 py-1 rounded hover:bg-white/10 transition-colors">{item.label}</span>
-                    <div className="absolute left-0 top-full z-20 hidden min-w-[160px] flex-col gap-2 rounded bg-white py-2 px-4 shadow-lg group-hover:flex mt-2">
+                    <span className="cursor-pointer rounded px-2 py-1 font-semibold text-white transition-colors hover:bg-white/10">
+                      {item.label}
+                    </span>
+                    <div className="absolute top-full left-0 z-20 mt-2 hidden min-w-[160px] flex-col gap-2 rounded bg-white px-4 py-2 shadow-lg group-hover:flex">
                       {item.children.map((child, j) => (
-                        <Link key={j} href={child.href} className="block py-1 px-2 text-black hover:bg-gray-100 rounded">
+                        <Link
+                          key={j}
+                          href={child.href}
+                          className="block rounded px-2 py-1 text-black hover:bg-gray-100"
+                        >
                           {child.label}
                         </Link>
                       ))}
@@ -118,7 +124,11 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
                 );
               }
               return (
-                <Link key={i} href={item.href} className="text-white font-semibold px-2 py-1 rounded hover:bg-white/10 transition-colors">
+                <Link
+                  key={i}
+                  href={item.href}
+                  className="rounded px-2 py-1 font-semibold text-white transition-colors hover:bg-white/10"
+                >
                   {item.label}
                 </Link>
               );
@@ -126,7 +136,7 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
           </nav>
         </div>
         {/* Search Bar */}
-        <div className="flex flex-1 justify-center items-center min-w-0 max-w-2xl px-2">
+        <div className="flex max-w-2xl min-w-0 flex-1 items-center justify-center px-2">
           <div className="w-full">
             <Search />
           </div>
@@ -140,7 +150,7 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
             <>
               <button onClick={toggleWishList} className="relative -m-2 cursor-pointer p-2">
                 {wishlist && wishlist.length > 0 ? (
-                  <span className="absolute right-0 top-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full bg-main-600 text-xs text-white">
+                  <span className="bg-main-600 absolute top-0 right-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full text-xs text-white">
                     {wishlist.length}
                   </span>
                 ) : null}
@@ -148,7 +158,7 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
               </button>
               <button onClick={toggleCart} className="relative -m-2 cursor-pointer p-2">
                 {totalQuantity && totalQuantity > 0 ? (
-                  <span className="absolute right-0 top-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full bg-main-600 text-xs text-white">
+                  <span className="bg-main-600 absolute top-0 right-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full text-xs text-white">
                     {totalQuantity}
                   </span>
                 ) : null}
@@ -175,17 +185,21 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
         </button>
         {/* Mobile Nav Drawer */}
         <nav
-          className={`fixed left-0 top-0 z-30 flex flex-col items-start w-full h-dvh bg-white p-8 pb-16 transition-transform duration-300 lg:hidden ${isMenuOpened ? "translate-x-0" : "-translate-x-full"}`}
+          className={`fixed top-0 left-0 z-30 flex h-dvh w-full flex-col items-start bg-white p-8 pb-16 transition-transform duration-300 lg:hidden ${isMenuOpened ? "translate-x-0" : "-translate-x-full"}`}
         >
-          <div className="flex flex-col gap-8 w-full pt-16">
+          <div className="flex w-full flex-col gap-8 pt-16">
             {leftNav.map((item, i) => {
               if (item.children) {
                 return (
                   <div key={i} className="group relative">
-                    <span className="cursor-pointer text-black font-semibold">{item.label}</span>
-                    <div className="flex flex-col gap-2 pl-4 mt-2">
+                    <span className="cursor-pointer font-semibold text-black">{item.label}</span>
+                    <div className="mt-2 flex flex-col gap-2 pl-4">
                       {item.children.map((child, j) => (
-                        <Link key={j} href={child.href} className="block py-1 px-2 text-black hover:bg-gray-100 rounded">
+                        <Link
+                          key={j}
+                          href={child.href}
+                          className="block rounded px-2 py-1 text-black hover:bg-gray-100"
+                        >
                           {child.label}
                         </Link>
                       ))}
@@ -194,7 +208,7 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
                 );
               }
               return (
-                <Link key={i} href={item.href} className="text-black font-semibold">
+                <Link key={i} href={item.href} className="font-semibold text-black">
                   {item.label}
                 </Link>
               );
