@@ -50,7 +50,7 @@ export default async function RootLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages({ locale });
-   
+
   return (
     <html
       className={cn(GeistSans.variable, "twp overflow-x-clip lg:overflow-y-scroll")}
@@ -64,25 +64,25 @@ export default async function RootLayout({
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body className="max-w-screen overflow-x-clip">
-        <ViewTransition>
-          <Providers>
-            <PlausibleProvider
-              domain="ecommerce.mandala.sh"
-              selfHosted={true}
-              customDomain="plausible.pimento.cloud"
-            />
-            <NextIntlClientProvider locale={locale} messages={messages}>
-              {/* <AdminBar
+        {/* <ViewTransition> */}
+        <Providers>
+          <PlausibleProvider
+            domain="ecommerce.mandala.sh"
+            selfHosted={true}
+            customDomain="plausible.pimento.cloud"
+          />
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            {/* <AdminBar
                 adminBarProps={{
                  // preview: isEnabled,
                 }}
               /> */}
-              {/* {isEnabled && <LivePreviewListener />} */}
-              {children}
-              <Footer />
-            </NextIntlClientProvider>
-          </Providers>
-        </ViewTransition>
+            {/* {isEnabled && <LivePreviewListener />} */}
+            {children}
+            <Footer />
+          </NextIntlClientProvider>
+        </Providers>
+        {/* </ViewTransition> */}
       </body>
     </html>
   );

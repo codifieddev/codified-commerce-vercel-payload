@@ -48,14 +48,15 @@ export const FloatingHeader = ({ data }: { data: Header }) => {
     // { ...(theme ? { "data-theme": theme } : {}) },
   );
 
+  // Normalize background style for hydration
+  const headerStyle = data.background && scrollValue === 0 ? { background: data.background } : {};
+  const innerDivStyle = data.background ? { background: data.background } : {};
+
   return (
-    <header
-      className={classes}
-      style={data.background && scrollValue === 0 ? { background: data.background } : {}}
-    >
+    <header className={classes} style={headerStyle}>
       <div
         className={`header ${scrollValue > 0 ? "scrolled" : ""} ${isMenuOpened ? "opened" : ""}`}
-        style={data.background ? { background: data.background } : {}}
+        style={innerDivStyle}
       >
         <Link href="/" className="mr-auto">
           {data.logo && typeof data.logo !== "string" && data.logo.url && data.logo.alt ? (
@@ -84,7 +85,7 @@ export const FloatingHeader = ({ data }: { data: Header }) => {
           />
         </button>
         <nav
-          className={`absolute left-1/2 top-0 -z-10 flex origin-bottom transition-opacity duration-300 ${isMenuOpened ? "opacity-100" : "scale-y-0 opacity-0"} h-dvh w-screen -translate-x-1/2 flex-col items-start justify-between bg-white p-8 pb-16 md:p-12 lg:static lg:h-auto lg:w-fit lg:translate-x-0 lg:scale-100 lg:flex-row lg:bg-transparent lg:p-0 lg:opacity-100`}
+          className={`absolute top-0 left-1/2 -z-10 flex origin-bottom transition-opacity duration-300 ${isMenuOpened ? "opacity-100" : "scale-y-0 opacity-0"} h-dvh w-screen -translate-x-1/2 flex-col items-start justify-between bg-white p-8 pb-16 md:p-12 lg:static lg:h-auto lg:w-fit lg:translate-x-0 lg:scale-100 lg:flex-row lg:bg-transparent lg:p-0 lg:opacity-100`}
         >
           <div className="flex flex-col items-start gap-12 pt-24 lg:flex-row lg:pt-0">
             {data.navItems?.map(({ link }, i) => {

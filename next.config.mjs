@@ -29,7 +29,7 @@ const nextConfig = {
   redirects,
   experimental: {
     reactCompiler: true,
-    viewTransition: true,
+    viewTransition: false,
   },
 };
 
