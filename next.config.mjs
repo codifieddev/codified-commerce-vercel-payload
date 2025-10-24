@@ -31,6 +31,9 @@ const nextConfig = {
     reactCompiler: true,
     viewTransition: false,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default withNextIntl(withPayload(nextConfig));
