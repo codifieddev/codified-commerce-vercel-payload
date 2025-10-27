@@ -6,19 +6,15 @@ import RichText from "@/components/RichText";
 import { type Locale } from "@/i18n/config";
 import { Link } from "@/i18n/routing";
 import { type Media } from "@/payload-types";
-import config from "@/payload.config";
+// Do not import payload.config in app directory. Use getPayload() without config for Vercel/Next.js integration.
 import { formatPrice } from "@/utilities/formatPrices";
 import { getCachedGlobal } from "@/utilities/getGlobals";
 import { getOrderProducts } from "@/utilities/getOrderProducts";
 
 const OrdersPage = async ({ params }: { params: Promise<{ locale: Locale; id: string }> }) => {
   const { locale, id } = await params;
-  const payload = await getPayload({ config });
-  const order = await payload.findByID({
-    collection: "orders",
-    id,
-    locale,
-  });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/orders/${id}`);
+  const order = await res.json();
 
   const t = await getTranslations("Order");
   const c = await getTranslations("CheckoutForm.countries");

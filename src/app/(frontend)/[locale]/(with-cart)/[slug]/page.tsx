@@ -3,17 +3,18 @@ import { setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import React, { cache } from "react";
 
-import { RenderBlocks } from "@/blocks/RenderBlocks";
 import { PayloadRedirects } from "@/components/PayloadRedirects";
+
+import { RenderBlocks } from "@/blocks/RenderBlocks";
 import { RenderHero } from "@/components/heros/RenderHero";
 import { type Locale } from "@/i18n/config";
 import { routing } from "@/i18n/routing";
 import { generateMeta } from "@/utilities/generateMeta";
 import config from "@payload-config";
 
-import PageClient from "./page.client";
-
 import type { Metadata } from "next";
+import { SimplePageEditor } from "./PageEditor/SimplePageEditor";
+import PageClient from "./page.client";
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config });
@@ -47,38 +48,31 @@ type Args = {
 };
 
 export default async function Page({ params: paramsPromise }: Args) {
-  // const { isEnabled: draft } = await draftMode();
   const { slug = "home", locale } = await paramsPromise;
-
   const url = `/${locale}/${slug}`;
 
   const page = await queryPageBySlug({
     slug,
     locale,
   });
- 
 
-  console.log("Page slug:", slug, "Locale:", locale, "Page found:", !!page);
+  console.log("Rendering page for slug:", page);
   if (!page) {
-    console.log("No page found for slug:", slug, "and locale:", locale);
-   return <PayloadRedirects url={url} locale={locale} />;
+    return <PayloadRedirects url={url} locale={locale} />;
   }
 
   setRequestLocale(locale);
 
-  const { hero, layout } = page;
-
   return (
-    <article className="pt-16 pb-24">
-      <PageClient />
-      {/* Allows redirects for valid pages too */}
-      {!page && slug !== "home" && <PayloadRedirects locale={locale} url={url} />}
-
-      {/* {draft && <LivePreviewListener />} */}
-
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
-    </article>
+    <div className="min-h-screen">
+      <SimplePageEditor page={page}>
+           <PageClient />
+        <article className="pt-16 pb-24">
+          <RenderHero {...page.hero} />
+          <RenderBlocks blocks={page.layout} />
+        </article>
+      </SimplePageEditor>
+    </div>
   );
 }
 
@@ -96,7 +90,8 @@ const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: L
   const { isEnabled: draft } = await draftMode();
 
   const payload = await getPayload({ config });
-   console.log("Querying page for slug:", slug, "and locale:", locale, "Draft mode:", draft,);
+  // console.log("Querying page for slug:", slug, "and locale:", locale, "Draft mode:", draft);
+  
   try {
     const result = await payload.find({
       collection: "pages",
@@ -111,10 +106,10 @@ const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: L
         },
       },
     });
-    console.log("Payload query result for slug:", slug, "Locale:", locale, "Result count:", result);
+
+    // console.log("Payload query result for slug:", slug, "Locale:", locale, "Result count:", result.totalDocs);
     return result.docs?.[0] || null;
   } catch (error) {
-    // Now instead of global error we will know at least where the error is
     console.log("Main page error: ", error);
     return null;
   }
