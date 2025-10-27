@@ -15,7 +15,9 @@ import { FormBlock } from "@/blocks/Form/config";
 import { MediaBlock } from "@/blocks/MediaBlock/config";
 import { revalidateGlobal } from "@/hooks/revalidateGlobal";
 
+
 import type { GlobalConfig } from "payload";
+import { TilesviewHero } from "@/blocks/TilesviewHero/config";
 
 export const ShopLayout: GlobalConfig = {
   slug: "shopLayout",
@@ -223,7 +225,7 @@ export const ShopLayout: GlobalConfig = {
                       return [
                         ...rootFeatures,
                         HeadingFeature({ enabledHeadingSizes: ["h1", "h2", "h3", "h4"] }),
-                        BlocksFeature({ blocks: [Banner, Code, MediaBlock, Accordion, Carousel, FormBlock] }),
+                        BlocksFeature({ blocks: [Banner, Code, MediaBlock, Accordion, Carousel, FormBlock, TilesviewHero] }),
                         FixedToolbarFeature(),
                         InlineToolbarFeature(),
                         HorizontalRuleFeature(),

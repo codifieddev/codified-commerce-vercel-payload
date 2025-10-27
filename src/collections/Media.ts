@@ -6,18 +6,30 @@ import { FixedToolbarFeature, InlineToolbarFeature, lexicalEditor } from "@paylo
 import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
 
-import type { CollectionConfig } from "payload";
+import type { Access, CollectionConfig } from "payload";
+import { isAdmin, isManager } from "@/access/hasRole";
 
 const filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(filename);
 
+const adminacess: Access = (args) => {
+  if (isAdmin(args) ) {
+    return true;
+  }
+  // fallback to published only
+  return {
+    _status: {
+      equals: "published",
+    },
+  };
+};
 export const Media: CollectionConfig = {
   slug: "media",
   access: {
-    create: authenticated,
-    delete: authenticated,
-    read: anyone,
-    update: authenticated,
+    create: adminacess,
+    delete: adminacess,
+    read: adminacess,
+    update: adminacess,
   },
   labels: {
     singular: {

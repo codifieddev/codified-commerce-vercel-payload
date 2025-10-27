@@ -23,17 +23,36 @@ import { generatePreviewPath } from "@/utilities/generatePreviewPath";
 
 import { revalidateDelete, revalidatePage } from "./hooks/revalidatePage";
 
-import type { CollectionConfig } from "payload";
+import type { Access, CollectionConfig } from "payload";
 import { VideoCard } from "@/blocks/VideoCard/config";
 import { AboutPage } from "@/blocks/About/config";
+import { TilesviewHero } from "@/blocks/TilesviewHero/config";
+import { isAdmin, isManager } from "@/access/hasRole";
+
+
+
+
+// Allow admins/managers to read all, others only published
+const adminacess: Access = (args) => {
+  if (isAdmin(args) ) {
+    return true;
+  }
+  // fallback to published only
+  return {
+    _status: {
+      equals: "published",
+    },
+  };
+};
+
 
 export const Pages: CollectionConfig<"pages"> = {
   slug: "pages",
   access: {
-    create: authenticated,
-    delete: authenticated,
-    read: authenticatedOrPublished,
-    update: authenticated,
+    create: adminacess,
+    delete: adminacess,
+    read: adminacess,
+    update: adminacess,
   },
   labels: {
     singular: {
@@ -104,6 +123,7 @@ export const Pages: CollectionConfig<"pages"> = {
                 Hotspot,
                 VideoCard,
                 AboutPage,
+               TilesviewHero,
               ],
               required: true,
               admin: {

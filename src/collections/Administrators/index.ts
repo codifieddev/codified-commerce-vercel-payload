@@ -1,4 +1,6 @@
+
 import { authenticated } from "@/access/authenticated";
+import { isAdmin } from "@/access/hasRole";
 
 import type { CollectionConfig } from "payload";
 
@@ -15,14 +17,14 @@ export const Administrators: CollectionConfig = {
     },
   },
   access: {
-    admin: authenticated,
-    create: authenticated,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
+    admin: authenticated, // can see in admin UI if authenticated
+    read: authenticated, // all authenticated can read
+    create: isAdmin, // only admins can create
+    update: isAdmin, // only admins can update
+    delete: isAdmin, // only admins can delete
   },
   admin: {
-    defaultColumns: ["name", "email"],
+  defaultColumns: ["name", "email", "role.name", "role.permissions"],
     useAsTitle: "name",
     group: {
       en: "Page Settings",
@@ -35,6 +37,18 @@ export const Administrators: CollectionConfig = {
       name: "name",
       type: "text",
     },
+    {
+      name: "role",
+      type: "relationship",
+  relationTo: ["roles"],
+      required: true,
+    }
   ],
   timestamps: true,
+  defaultPopulate: {
+    role: {
+      name: true,
+      permissions: true,
+    },
+  },
 };

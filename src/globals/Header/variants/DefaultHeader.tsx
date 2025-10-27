@@ -81,7 +81,7 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
   );
 
   // Normalize background style for hydration
-  const headerStyle = data.background ? { background: data.background } : { background: "rgba(0,0,0,0.92)" };
+  const headerStyle = data.background ? { background: data.background } : { background: "#000" };
 
   return (
     <header className={classes} style={headerStyle}>

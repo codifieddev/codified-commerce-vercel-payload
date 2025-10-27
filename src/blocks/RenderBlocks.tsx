@@ -10,6 +10,7 @@ import { CarouselBlock } from "./Carousel/Component";
 
 import type { Page } from "@/payload-types";
 import { AboutPageRenderer } from "./About/component";
+import TilesviewHero from "./TilesviewHero/Component";
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -22,6 +23,8 @@ const blockComponents = {
   accordion: AccordionBlock,
   hotspotZone: HotspotBlock,
   aboutPage: AboutPageRenderer,
+  tilesviewHero: TilesviewHero
+
 };
 
 export const RenderBlocks = ({ blocks }: { blocks: Page["layout"][0][] }) => {
