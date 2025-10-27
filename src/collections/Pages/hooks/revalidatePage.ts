@@ -1,4 +1,4 @@
-import { revalidatePath, revalidateTag } from "next/cache";
+// Use API route for revalidation instead of next/cache
 
 import type { Page } from "@/payload-types";
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from "payload";
@@ -14,8 +14,7 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({
 
       payload.logger.info(`Revalidating page at path: ${path}`);
 
-      revalidatePath(path);
-      revalidateTag("pages-sitemap");
+  // await fetch("/api/revalidate", { method: "POST", body: JSON.stringify({ path, tag: "pages-sitemap" }) });
     }
 
     // If the page was previously published, we need to revalidate the old path
@@ -24,8 +23,7 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({
 
       payload.logger.info(`Revalidating old page at path: ${oldPath}`);
 
-      revalidatePath(oldPath);
-      revalidateTag("pages-sitemap");
+  // await fetch("/api/revalidate", { method: "POST", body: JSON.stringify({ path: oldPath, tag: "pages-sitemap" }) });
     }
   }
   return doc;
@@ -34,8 +32,7 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({
 export const revalidateDelete: CollectionAfterDeleteHook<Page> = ({ doc, req: { context } }) => {
   if (!context.disableRevalidate) {
     const path = doc?.slug === "home" ? "/" : `/${doc?.slug}`;
-    revalidatePath(path);
-    revalidateTag("pages-sitemap");
+  // await fetch("/api/revalidate", { method: "POST", body: JSON.stringify({ path, tag: "pages-sitemap" }) });
   }
 
   return doc;

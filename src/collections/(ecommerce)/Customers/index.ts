@@ -1,4 +1,4 @@
-import { revalidateTag } from "next/cache";
+// Remove revalidateTag from client context
 import { type CollectionConfig } from "payload";
 
 import { countryList } from "@/globals/(ecommerce)/Couriers/utils/countryList";
@@ -37,7 +37,8 @@ export const Customers: CollectionConfig = {
     afterOperation: [createTokenAndSendEmail],
     afterLogin: [
       async () => {
-        revalidateTag("user-auth");
+        // If you need to revalidate, call a server action or API route that uses revalidateTag
+        // Example: await fetch('/api/revalidate-user-auth', { method: 'POST' })
       },
     ],
     beforeChange: [

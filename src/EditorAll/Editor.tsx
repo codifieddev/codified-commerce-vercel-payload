@@ -52,10 +52,10 @@ export default function Editor() {
 
   // Save handler
   const save = (data: any) => {
-    console.log("Published data:", data);
+    //console.log("Published data:", data);
     // TODO: send data to backend or database
   };
-
+ console.log("Rendering Editor", initialData);
   // Render Puck editor
   return <Puck config={config} data={initialData} onPublish={save} />;
 }

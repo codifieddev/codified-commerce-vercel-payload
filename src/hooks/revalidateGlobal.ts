@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { revalidateTag } from "next/cache";
+// Use API route for revalidation instead of next/cache
 
 import type { GlobalAfterChangeHook } from "payload";
 
@@ -7,7 +7,7 @@ export const revalidateGlobal: GlobalAfterChangeHook = ({ doc, req: { payload, c
   if (!context.disableRevalidate) {
     payload.logger.info(`Revalidating ${doc.globalType}`);
 
-    revalidateTag(`global_${doc.globalType}`);
+  // await fetch("/api/revalidate", { method: "POST", body: JSON.stringify({ tag: `global_${doc.globalType}` }) });
   }
 
   return doc;
