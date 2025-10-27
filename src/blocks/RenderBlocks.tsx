@@ -9,6 +9,7 @@ import { AccordionBlock } from "./Accordion/Component";
 import { CarouselBlock } from "./Carousel/Component";
 
 import type { Page } from "@/payload-types";
+import { AboutPageRenderer } from "./About/component";
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -20,6 +21,7 @@ const blockComponents = {
   mediaBlock: MediaBlock,
   accordion: AccordionBlock,
   hotspotZone: HotspotBlock,
+  aboutPage: AboutPageRenderer,
 };
 
 export const RenderBlocks = ({ blocks }: { blocks: Page["layout"][0][] }) => {
