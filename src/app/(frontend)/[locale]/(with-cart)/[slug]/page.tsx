@@ -90,7 +90,7 @@ const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: L
   const { isEnabled: draft } = await draftMode();
 
   const payload = await getPayload({ config });
-  console.log("Querying page for slug:", slug, "and locale:", locale, "Draft mode:", draft);
+  // console.log("Querying page for slug:", slug, "and locale:", locale, "Draft mode:", draft);
   
   try {
     const result = await payload.find({
@@ -106,7 +106,8 @@ const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: L
         },
       },
     });
-    console.log("Payload query result for slug:", slug, "Locale:", locale, "Result count:", result.totalDocs);
+
+    // console.log("Payload query result for slug:", slug, "Locale:", locale, "Result count:", result.totalDocs);
     return result.docs?.[0] || null;
   } catch (error) {
     console.log("Main page error: ", error);
