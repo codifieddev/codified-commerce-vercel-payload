@@ -26,6 +26,7 @@ import { revalidateDelete, revalidatePage } from "./hooks/revalidatePage";
 import type { Access, CollectionConfig } from "payload";
 import { VideoCard } from "@/blocks/VideoCard/config";
 import { AboutPage } from "@/blocks/About/config";
+import { HeroBlock, ProductCatalogBlock, TestimonialBlock, VideosBlock } from "@/blocks/Home/config";
 import { TilesviewHero } from "@/blocks/TilesviewHero/config";
 import { isAdmin, isManager } from "@/access/hasRole";
 
@@ -123,6 +124,10 @@ export const Pages: CollectionConfig<"pages"> = {
                 Hotspot,
                 VideoCard,
                 AboutPage,
+                HeroBlock,
+                VideosBlock,
+                ProductCatalogBlock,
+                TestimonialBlock,
                TilesviewHero,
               ],
               required: true,

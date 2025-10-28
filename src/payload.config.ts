@@ -57,11 +57,11 @@ export default buildConfig({
         path: "@/components/AdminNavbar#AdminNavbar",
       },
       beforeDashboard: ["@/components/BeforeDashboard#BeforeDashboard"],
-      views: {
-        dashboard: {
-          Component: "@/components/(ecommerce)/AdminDashboard#AdminDashboard",
-        },
-      },
+      // views: {
+      //   dashboard: {
+      //     Component: "@/components/(ecommerce)/AdminDashboard#AdminDashboard",
+      //   },
+      // },
       beforeNavLinks: ["@/components/(ecommerce)/AdminDashboardNavLink#AdminDashboardNavLink"],
     },
     meta: {

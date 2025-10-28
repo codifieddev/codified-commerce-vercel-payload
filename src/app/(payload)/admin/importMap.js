@@ -61,7 +61,6 @@ import { AdminResetPassword as AdminResetPassword_f8d611a17c80018cb52bc9ecc1bbdd
 import { BeforeDashboard as BeforeDashboard_1a7510af427896d367a49dbf838d2de6 } from '@/components/BeforeDashboard'
 import { AdminDashboardNavLink as AdminDashboardNavLink_18419da7f6f55f332ebe4f081849b00b } from '@/components/(ecommerce)/AdminDashboardNavLink'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
-import { AdminDashboard as AdminDashboard_5728d9308044ad41218b388eed983c05 } from '@/components/(ecommerce)/AdminDashboard'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -126,6 +125,5 @@ export const importMap = {
   "@/components/AdminResetPassword#AdminResetPassword": AdminResetPassword_f8d611a17c80018cb52bc9ecc1bbddd2,
   "@/components/BeforeDashboard#BeforeDashboard": BeforeDashboard_1a7510af427896d367a49dbf838d2de6,
   "@/components/(ecommerce)/AdminDashboardNavLink#AdminDashboardNavLink": AdminDashboardNavLink_18419da7f6f55f332ebe4f081849b00b,
-  "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e,
-  "@/components/(ecommerce)/AdminDashboard#AdminDashboard": AdminDashboard_5728d9308044ad41218b388eed983c05
+  "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e
 }
