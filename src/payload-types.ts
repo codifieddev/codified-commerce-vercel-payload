@@ -282,6 +282,10 @@ export interface Page {
     | HotspotBlock
     | VideoCardBlock
     | AboutPageBlock
+    | HeroBlock
+    | VideosBlock
+    | ProductCatalogBlock
+    | TestimonialBlock
   )[];
   meta?: {
     title?: string | null;
@@ -779,7 +783,7 @@ export interface Product {
    * If false, weight is in Product Details
    */
   enableVariantWeights?: boolean | null;
-  variantsType?: ('sizes' | 'colors' | 'colorsAndSizes') | null;
+  variantsType?: ('sizes' | 'colors' | 'colorsAndSizes' | 'Diameter' | 'Width' | 'SideWall Color') | null;
   colors?:
     | {
         label: string;
@@ -789,6 +793,20 @@ export interface Product {
       }[]
     | null;
   sizes?:
+    | {
+        label: string;
+        slug: string;
+        id?: string | null;
+      }[]
+    | null;
+  diameters?:
+    | {
+        label: string;
+        slug: string;
+        id?: string | null;
+      }[]
+    | null;
+  width?:
     | {
         label: string;
         slug: string;
@@ -2086,6 +2104,127 @@ export interface CTABlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock".
+ */
+export interface HeroBlock {
+  /**
+   * Upload hero background image
+   */
+  backgroundImage: string | Media;
+  /**
+   * Main heading text (e.g., "Izuzetna oštrina nadomak ruke")
+   */
+  title: string;
+  /**
+   * Supporting text below the title
+   */
+  subtitle?: string | null;
+  primaryButton: {
+    text: string;
+    link: string;
+  };
+  videoPopup?: {
+    enabled?: boolean | null;
+    /**
+     * Full YouTube URL (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+     */
+    youtubeUrl?: string | null;
+  };
+  containerWidth?: ('70' | '80' | '90' | '100') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'heroBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideosBlock".
+ */
+export interface VideosBlock {
+  sectionTitle?: string | null;
+  videos?:
+    | {
+        backgroundImage: string | Media;
+        title: string;
+        blurbs?:
+          | {
+              icon?: string | null;
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        button: {
+          text: string;
+          link: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'videosBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductCatalogBlock".
+ */
+export interface ProductCatalogBlock {
+  title: string;
+  description?: string | null;
+  categories?:
+    | {
+        name: string;
+        slug: string;
+        id?: string | null;
+      }[]
+    | null;
+  products?:
+    | {
+        name: string;
+        image: string | Media;
+        price: string;
+        /**
+         * Must match one of the category slugs above
+         */
+        category: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productCatalogBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialBlock".
+ */
+export interface TestimonialBlock {
+  sectionTitle?: string | null;
+  testimonials?:
+    | {
+        /**
+         * Opening text of testimonial
+         */
+        preText: string;
+        /**
+         * Main testimonial content
+         */
+        midText?: string | null;
+        /**
+         * Closing text of testimonial
+         */
+        postText?: string | null;
+        authorName: string;
+        authorImage?: (string | null) | Media;
+        authorTitle?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonialBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "customers".
  */
 export interface Customer {
@@ -2737,6 +2876,10 @@ export interface PagesSelect<T extends boolean = true> {
         hotspotZone?: T | HotspotBlockSelect<T>;
         vdc?: T | VideoCardBlockSelect<T>;
         aboutPage?: T | AboutPageBlockSelect<T>;
+        heroBlock?: T | HeroBlockSelect<T>;
+        videosBlock?: T | VideosBlockSelect<T>;
+        productCatalogBlock?: T | ProductCatalogBlockSelect<T>;
+        testimonialBlock?: T | TestimonialBlockSelect<T>;
       };
   meta?:
     | T
@@ -3288,6 +3431,105 @@ export interface CTABlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock_select".
+ */
+export interface HeroBlockSelect<T extends boolean = true> {
+  backgroundImage?: T;
+  title?: T;
+  subtitle?: T;
+  primaryButton?:
+    | T
+    | {
+        text?: T;
+        link?: T;
+      };
+  videoPopup?:
+    | T
+    | {
+        enabled?: T;
+        youtubeUrl?: T;
+      };
+  containerWidth?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideosBlock_select".
+ */
+export interface VideosBlockSelect<T extends boolean = true> {
+  sectionTitle?: T;
+  videos?:
+    | T
+    | {
+        backgroundImage?: T;
+        title?: T;
+        blurbs?:
+          | T
+          | {
+              icon?: T;
+              text?: T;
+              id?: T;
+            };
+        button?:
+          | T
+          | {
+              text?: T;
+              link?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductCatalogBlock_select".
+ */
+export interface ProductCatalogBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  categories?:
+    | T
+    | {
+        name?: T;
+        slug?: T;
+        id?: T;
+      };
+  products?:
+    | T
+    | {
+        name?: T;
+        image?: T;
+        price?: T;
+        category?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialBlock_select".
+ */
+export interface TestimonialBlockSelect<T extends boolean = true> {
+  sectionTitle?: T;
+  testimonials?:
+    | T
+    | {
+        preText?: T;
+        midText?: T;
+        postText?: T;
+        authorName?: T;
+        authorImage?: T;
+        authorTitle?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -3605,6 +3847,20 @@ export interface ProductsSelect<T extends boolean = true> {
         id?: T;
       };
   sizes?:
+    | T
+    | {
+        label?: T;
+        slug?: T;
+        id?: T;
+      };
+  diameters?:
+    | T
+    | {
+        label?: T;
+        slug?: T;
+        id?: T;
+      };
+  width?:
     | T
     | {
         label?: T;

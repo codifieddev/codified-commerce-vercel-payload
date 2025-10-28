@@ -65,13 +65,13 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   return (
     <div className="min-h-screen">
-      <SimplePageEditor page={page}>
-           <PageClient />
-        <article className="pt-16 pb-24">
-          <RenderHero {...page.hero} />
-          <RenderBlocks blocks={page.layout} />
-        </article>
-      </SimplePageEditor>
+      {/* <SimplePageEditor page={page}> */}
+      <PageClient />
+      <article className="pt-16 pb-24">
+        <RenderHero {...page.hero} />
+        <RenderBlocks blocks={page.layout} />
+      </article>
+      {/* </SimplePageEditor> */}
     </div>
   );
 }
@@ -91,7 +91,7 @@ const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: L
 
   const payload = await getPayload({ config });
   // console.log("Querying page for slug:", slug, "and locale:", locale, "Draft mode:", draft);
-  
+
   try {
     const result = await payload.find({
       collection: "pages",

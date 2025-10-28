@@ -26,6 +26,7 @@ import { revalidateDelete, revalidatePage } from "./hooks/revalidatePage";
 import type { CollectionConfig } from "payload";
 import { VideoCard } from "@/blocks/VideoCard/config";
 import { AboutPage } from "@/blocks/About/config";
+import { HeroBlock, ProductCatalogBlock, TestimonialBlock, VideosBlock } from "@/blocks/Home/config";
 
 export const Pages: CollectionConfig<"pages"> = {
   slug: "pages",
@@ -104,6 +105,10 @@ export const Pages: CollectionConfig<"pages"> = {
                 Hotspot,
                 VideoCard,
                 AboutPage,
+                HeroBlock,
+                VideosBlock,
+                ProductCatalogBlock,
+                TestimonialBlock,
               ],
               required: true,
               admin: {

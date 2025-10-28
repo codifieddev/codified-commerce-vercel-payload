@@ -14,6 +14,7 @@ import { useWishList } from "@/stores/WishlistStore";
 import { cn } from "@/utilities/cn";
 
 import { Search } from "../components/Search";
+import { Phone } from "lucide-react";
 
 const leftNav = [
   {
@@ -81,7 +82,7 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
   );
 
   // Normalize background style for hydration
-  const headerStyle = data.background ? { background: data.background } : { background: "rgba(0,0,0,0.92)" };
+  const headerStyle = data.background ? { background: data.background } : { background: "white" };
 
   return (
     <header className={classes} style={headerStyle}>
@@ -89,24 +90,13 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
         className={`relative container flex w-full items-center justify-between py-4 lg:gap-8 ${scrollValue > 0 ? "scrolled" : ""} ${isMenuOpened ? "opened" : ""}`}
       >
         {/* Logo and Nav */}
-        <div className="flex min-w-0 items-center gap-8">
-          <Link href="/" className="flex-shrink-0">
-            {data.logo && typeof data.logo !== "string" && data.logo.url && data.logo.alt ? (
-              <Media
-                resource={data.logo}
-                className={cn(isMenuOpened && "invert lg:invert-0", "h-[56px] w-auto max-w-[160px]")}
-                imgClassName="h-[56px] w-auto max-w-[160px]"
-              />
-            ) : (
-              <Logo />
-            )}
-          </Link>
+        <div className="flex min-w-0 items-center gap-2">
           <nav className="hidden items-center gap-6 lg:flex">
             {leftNav.map((item, i) => {
               if (item.children) {
                 return (
                   <div key={i} className="group relative">
-                    <span className="cursor-pointer rounded px-2 py-1 font-semibold text-white transition-colors hover:bg-white/10">
+                    <span className="cursor-pointer rounded px-2 py-1 font-semibold text-black transition-colors hover:bg-white/10">
                       {item.label}
                     </span>
                     <div className="absolute top-full left-0 z-20 mt-2 hidden min-w-[160px] flex-col gap-2 rounded bg-white px-4 py-2 shadow-lg group-hover:flex">
@@ -135,27 +125,39 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
             })}
           </nav>
         </div>
+
         {/* Search Bar */}
         <div className="flex max-w-2xl min-w-0 flex-1 items-center justify-center px-2">
           <div className="w-full">
-            <Search />
+            <Link href="/" className="flex-shrink-0">
+              {data.logo && typeof data.logo !== "string" && data.logo.url && data.logo.alt ? (
+                <Media
+                  resource={data.logo}
+                  className={cn(isMenuOpened && "invert lg:invert-0", "h-[56px] w-auto max-w-[160px]")}
+                  imgClassName="h-[56px] w-auto max-w-[160px]"
+                />
+              ) : (
+                <Logo />
+              )}
+            </Link>
+            {/* <Search /> */}
           </div>
         </div>
         {/* Icons */}
         <div className="flex items-center gap-4">
-          <Link href="/account/orders" className="-m-2 cursor-pointer p-2">
-            <UserIcon color="white" width={24} height={24} />
+          <Link href="/account/orders" className="-m-2 flex cursor-pointer items-center gap-1 p-2 text-white">
+            <Phone color="white" width={24} height={24} /> Contact Us
           </Link>
           {!disableCart && (
             <>
-              <button onClick={toggleWishList} className="relative -m-2 cursor-pointer p-2">
+              {/* <button onClick={toggleWishList} className="relative -m-2 cursor-pointer p-2">
                 {wishlist && wishlist.length > 0 ? (
                   <span className="bg-main-600 absolute top-0 right-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full text-xs text-white">
                     {wishlist.length}
                   </span>
                 ) : null}
                 <HeartIcon color="white" width={24} height={24} />
-              </button>
+              </button> */}
               <button onClick={toggleCart} className="relative -m-2 cursor-pointer p-2">
                 {totalQuantity && totalQuantity > 0 ? (
                   <span className="bg-main-600 absolute top-0 right-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full text-xs text-white">

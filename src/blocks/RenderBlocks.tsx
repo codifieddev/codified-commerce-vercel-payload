@@ -10,6 +10,7 @@ import { CarouselBlock } from "./Carousel/Component";
 
 import type { Page } from "@/payload-types";
 import { AboutPageRenderer } from "./About/component";
+import { HeroBlock, ProductCatalogBlock, TestimonialBlock, VideosBlock } from "./Home/component";
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -22,6 +23,10 @@ const blockComponents = {
   accordion: AccordionBlock,
   hotspotZone: HotspotBlock,
   aboutPage: AboutPageRenderer,
+  heroBlock: HeroBlock,
+  videosBlock: VideosBlock,
+  productCatalogBlock: ProductCatalogBlock,
+  testimonialBlock: TestimonialBlock,
 };
 
 export const RenderBlocks = ({ blocks }: { blocks: Page["layout"][0][] }) => {
@@ -35,6 +40,8 @@ export const RenderBlocks = ({ blocks }: { blocks: Page["layout"][0][] }) => {
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType];
+
+            console.log("===>>>", block);
 
             if (Block) {
               return (

@@ -13,7 +13,7 @@ export const FloatingHeader = ({ data }: { data: Header }) => {
   const [isMenuOpened, setisMenuOpened] = useState(false);
   const [scrollValue, setScrollValue] = useState(0);
   const [scrollDown, setScrollDown] = useState(false);
-
+  console.log("Floating", data);
   const toggleMenu = () => {
     setisMenuOpened((menuState) => !menuState);
     document.body.classList.toggle("overflow-clip");
