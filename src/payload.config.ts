@@ -20,6 +20,7 @@ import { ProductReviews } from "./collections/(ecommerce)/ProductReviews";
 import { ProductSubCategories } from "./collections/(ecommerce)/ProductSubCategories";
 import { Products } from "./collections/(ecommerce)/Products";
 import { Administrators } from "./collections/Administrators";
+import { Roles } from "./collections/Roles";
 import { Categories } from "./collections/Categories";
 import { Media } from "./collections/Media";
 import { Pages } from "./collections/Pages";
@@ -72,7 +73,7 @@ export default buildConfig({
         },
       ],
       title: "Admin Panel",
-      titleSuffix: "| Mandala SH",
+      titleSuffix: " SH",
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -121,6 +122,7 @@ export default buildConfig({
     Media,
     Categories,
     Administrators,
+    Roles,
     Customers,
     Orders,
     Products,

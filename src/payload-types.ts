@@ -73,6 +73,7 @@ export interface Config {
     media: Media;
     categories: Category;
     administrators: Administrator;
+    roles: Role;
     customers: Customer;
     orders: Order;
     products: Product;
@@ -106,6 +107,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     administrators: AdministratorsSelect<false> | AdministratorsSelect<true>;
+    roles: RolesSelect<false> | RolesSelect<true>;
     customers: CustomersSelect<false> | CustomersSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
@@ -286,6 +288,31 @@ export interface Page {
     | VideosBlock
     | ProductCatalogBlock
     | TestimonialBlock
+    | {
+        mainHeading?:
+          | {
+              text: string;
+              color?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        subHeading: string;
+        description?: string | null;
+        buttonText?: string | null;
+        ratings?:
+          | {
+              icon?: string | null;
+              value?: number | null;
+              label?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        backgroundImage?: (string | null) | Media;
+        logo?: (string | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'tilesviewHero';
+      }
   )[];
   meta?: {
     title?: string | null;
@@ -519,6 +546,10 @@ export interface Category {
 export interface Administrator {
   id: string;
   name?: string | null;
+  role: {
+    relationTo: 'roles';
+    value: string | Role;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -536,6 +567,23 @@ export interface Administrator {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: string;
+  name: string;
+  permissions?:
+    | {
+        collection: string;
+        actions: ('create' | 'read' | 'update' | 'delete' | 'admin')[];
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2719,6 +2767,10 @@ export interface PayloadLockedDocument {
         value: string | Administrator;
       } | null)
     | ({
+        relationTo: 'roles';
+        value: string | Role;
+      } | null)
+    | ({
         relationTo: 'customers';
         value: string | Customer;
       } | null)
@@ -2880,6 +2932,32 @@ export interface PagesSelect<T extends boolean = true> {
         videosBlock?: T | VideosBlockSelect<T>;
         productCatalogBlock?: T | ProductCatalogBlockSelect<T>;
         testimonialBlock?: T | TestimonialBlockSelect<T>;
+        tilesviewHero?:
+          | T
+          | {
+              mainHeading?:
+                | T
+                | {
+                    text?: T;
+                    color?: T;
+                    id?: T;
+                  };
+              subHeading?: T;
+              description?: T;
+              buttonText?: T;
+              ratings?:
+                | T
+                | {
+                    icon?: T;
+                    value?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              backgroundImage?: T;
+              logo?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   meta?:
     | T
@@ -3676,6 +3754,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface AdministratorsSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -3692,6 +3771,22 @@ export interface AdministratorsSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles_select".
+ */
+export interface RolesSelect<T extends boolean = true> {
+  name?: T;
+  permissions?:
+    | T
+    | {
+        collection?: T;
+        actions?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

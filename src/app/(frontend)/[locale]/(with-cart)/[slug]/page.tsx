@@ -56,7 +56,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     locale,
   });
 
-  console.log("Rendering page for slug:", page);
+  
   if (!page) {
     return <PayloadRedirects url={url} locale={locale} />;
   }
