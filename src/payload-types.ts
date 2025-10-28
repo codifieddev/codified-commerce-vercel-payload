@@ -546,10 +546,19 @@ export interface Category {
 export interface Administrator {
   id: string;
   name?: string | null;
-  role: {
-    relationTo: 'roles';
-    value: string | Role;
-  };
+  role: 'super-admin' | 'admin' | 'editor' | 'manager';
+  /**
+   * Define collection-level permissions for this administrator
+   */
+  permissions?:
+    | {
+        collection: 'products' | 'orders' | 'pages' | 'categories' | 'customers' | 'media';
+        actions: ('create' | 'read' | 'update' | 'delete')[];
+        id?: string | null;
+      }[]
+    | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -557,8 +566,6 @@ export interface Administrator {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
   sessions?:
     | {
         id: string;
@@ -567,23 +574,6 @@ export interface Administrator {
       }[]
     | null;
   password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "roles".
- */
-export interface Role {
-  id: string;
-  name: string;
-  permissions?:
-    | {
-        collection: string;
-        actions: ('create' | 'read' | 'update' | 'delete' | 'admin')[];
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -858,30 +848,6 @@ export interface Product {
     | {
         label: string;
         slug: string;
-        id?: string | null;
-      }[]
-    | null;
-  variants?:
-    | {
-        size?: string | null;
-        color?: string | null;
-        variantSlug?: string | null;
-        image?: (string | null) | Media;
-        /**
-         * Define stock for this variant. A stock of 0 disables checkout for this variant.
-         */
-        stock: number;
-        /**
-         * Define weight for this variant.
-         */
-        weight?: number | null;
-        pricing?:
-          | {
-              value: number;
-              currency: string;
-              id?: string | null;
-            }[]
-          | null;
         id?: string | null;
       }[]
     | null;
@@ -2270,6 +2236,23 @@ export interface TestimonialBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'testimonialBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: string;
+  name: string;
+  permissions?:
+    | {
+        collection: string;
+        actions: ('create' | 'read' | 'update' | 'delete' | 'admin')[];
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3755,6 +3738,15 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface AdministratorsSelect<T extends boolean = true> {
   name?: T;
   role?: T;
+  permissions?:
+    | T
+    | {
+        collection?: T;
+        actions?: T;
+        id?: T;
+      };
+  loginAttempts?: T;
+  lockUntil?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -3762,8 +3754,6 @@ export interface AdministratorsSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
   sessions?:
     | T
     | {
@@ -3960,24 +3950,6 @@ export interface ProductsSelect<T extends boolean = true> {
     | {
         label?: T;
         slug?: T;
-        id?: T;
-      };
-  variants?:
-    | T
-    | {
-        size?: T;
-        color?: T;
-        variantSlug?: T;
-        image?: T;
-        stock?: T;
-        weight?: T;
-        pricing?:
-          | T
-          | {
-              value?: T;
-              currency?: T;
-              id?: T;
-            };
         id?: T;
       };
   categoriesArr?:

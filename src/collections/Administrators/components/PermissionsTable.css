@@ -1,0 +1,94 @@
+.permissions-table-wrapper {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.permissions-table-wrapper h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.permissions-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.permissions-table thead {
+  background-color: #f3f4f6;
+}
+
+.permissions-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.permissions-table th:not(:first-child) {
+  text-align: center;
+  width: 100px;
+}
+
+.permissions-table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #6b7280;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.permissions-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.permissions-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.collection-name {
+  font-weight: 500;
+  color: #111827;
+  text-transform: capitalize;
+}
+
+.permission-cell {
+  text-align: center;
+}
+
+.check-mark {
+  color: #10b981;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.cross-mark {
+  color: #ef4444;
+  font-size: 18px;
+  font-weight: bold;
+  opacity: 0.5;
+}
+
+.permissions-table-empty {
+  padding: 24px;
+  text-align: center;
+  color: #6b7280;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  border: 1px dashed #d1d5db;
+  margin: 20px 0;
+}
+
+.permissions-table-empty p {
+  margin: 0;
+  font-size: 14px;
+}
