@@ -43,14 +43,48 @@ const adminacess: Access = (args) => {
   };
 };
 
+const userSpecificAccess: Access = ({ req: { user } }) => {
+  // Allow admins to see everything
+  // Regular users can only see pages they created
+  if (user) {
+    return {
+      CreatedBy: {
+        equals: user.id,
+      },
+    };
+  }
+
+  // Not authenticated
+  return false;
+};
+
+export const pageAccessControl: any = ({ req: { user, url } }) => {
+  if (url?.includes('/admin')) {
+      return {
+        CreatedBy: {
+          equals: user.id,
+        },
+      };
+  }
+  else {
+    {
+      return {
+        _status: {
+          equals: "published",
+        },
+      };
+    }
+  }
+};
+
 export const Pages: CollectionConfig<"pages"> = {
   slug: "pages",
-  access: {
-    create: adminacess,
-    delete: adminacess,
-    read: adminacess,
-    update: adminacess,
-  },
+  // access: {
+  //   create: authenticated,
+  //   delete: authenticated,
+  //   read: pageAccessControl,
+  //   update: authenticated,
+  // },
   labels: {
     singular: {
       en: "Page",
@@ -95,8 +129,22 @@ export const Pages: CollectionConfig<"pages"> = {
       name: "tenant",
       type: "relationship",
       relationTo: "tenants",
-      required: true,
-      admin: { position: "sidebar" },
+      // required: true,
+      admin: { position: "sidebar",
+    
+       },
+
+    },
+    {
+      name: "CreatedBy",
+      type: "relationship",
+      relationTo: "administrators",
+      admin: { position: "sidebar",  readOnly: true },
+      defaultValue: ({ req }) => {
+        if (req.user) {
+          return req.user.id;
+        }
+      }
     },
     {
       name: "title",

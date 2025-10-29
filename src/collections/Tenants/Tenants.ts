@@ -1,13 +1,11 @@
 // payload.collections/tenants.ts
 import { CollectionConfig } from "payload";
+import { pageAccessControl } from "../Pages";
 
 export const Tenants: CollectionConfig = {
   slug: "tenants",
   admin: {
     useAsTitle: "name",
-  },
-  access: {
-    read: () => true,
   },
   fields: [
     { name: "name", type: "text", required: true },
