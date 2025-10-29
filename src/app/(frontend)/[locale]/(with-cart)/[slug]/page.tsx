@@ -1,4 +1,4 @@
-import { draftMode } from "next/headers";
+import { draftMode, headers } from "next/headers";
 import { setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import React, { cache } from "react";
@@ -15,6 +15,8 @@ import config from "@payload-config";
 import type { Metadata } from "next";
 import { SimplePageEditor } from "./PageEditor/SimplePageEditor";
 import PageClient from "./page.client";
+import { getTenantByDomain } from "@/lib/getTenants";
+import { getPageBySlug } from "@/lib/getPageDomain";
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config });
@@ -48,28 +50,44 @@ type Args = {
 };
 
 export default async function Page({ params: paramsPromise }: Args) {
-  const { slug = "home", locale } = await paramsPromise;
+  const { slug, locale } = await paramsPromise;
+  const domain = (await headers()).get('x-tenant-domain') || (await headers()).get('host') || ''
+
+  const tenant = await getTenantByDomain(domain)
+
+  console.log("Fetched tenant:", tenant);
+
+  if (!tenant) return <div>Tenant not found for domain: {domain}</div>
+
   const url = `/${locale}/${slug}`;
 
-  const page = await queryPageBySlug({
-    slug,
-    locale,
-  });
+  console.log(slug)
+
+  const secPage = await getPageBySlug(tenant.id, slug || 'home');
+
+  console.log("Fetched secPage:", secPage);
+
+  if (!secPage) return <div>Page not found</div>
+
+  // const page = await queryPageBySlug({
+  //   slug,
+  //   locale,
+  // });
 
   
-  if (!page) {
-    return <PayloadRedirects url={url} locale={locale} />;
-  }
+  // if (!page) {
+  //   return <PayloadRedirects url={url} locale={locale} />;
+  // }
 
-  setRequestLocale(locale);
+  // setRequestLocale(locale);
 
   return (
     <div className="min-h-screen">
       {/* <SimplePageEditor page={page}> */}
       <PageClient />
       <article className="pt-16 pb-24">
-        <RenderHero {...page.hero} />
-        <RenderBlocks blocks={page.layout} />
+        <RenderHero {...secPage.hero} />
+        <RenderBlocks blocks={secPage.layout} />
       </article>
       {/* </SimplePageEditor> */}
     </div>

@@ -213,7 +213,8 @@ export interface CustomerAuthOperations {
  */
 export interface Page {
   id: string;
-  tenant: string | Tenant;
+  tenant?: (string | null) | Tenant;
+  CreatedBy?: (string | null) | Administrator;
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
@@ -361,6 +362,42 @@ export interface Tenant {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "administrators".
+ */
+export interface Administrator {
+  id: string;
+  name?: string | null;
+  role: 'super-admin' | 'admin' | 'editor' | 'manager';
+  /**
+   * Define collection-level permissions for this administrator
+   */
+  permissions?:
+    | {
+        collection: 'products' | 'orders' | 'pages' | 'categories' | 'customers' | 'media';
+        actions: ('create' | 'read' | 'update' | 'delete')[];
+        id?: string | null;
+      }[]
+    | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -571,42 +608,6 @@ export interface Category {
     | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "administrators".
- */
-export interface Administrator {
-  id: string;
-  name?: string | null;
-  role: 'super-admin' | 'admin' | 'editor' | 'manager';
-  /**
-   * Define collection-level permissions for this administrator
-   */
-  permissions?:
-    | {
-        collection: 'products' | 'orders' | 'pages' | 'categories' | 'customers' | 'media';
-        actions: ('create' | 'read' | 'update' | 'delete')[];
-        id?: string | null;
-      }[]
-    | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2892,6 +2893,7 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   tenant?: T;
+  CreatedBy?: T;
   title?: T;
   hero?:
     | T
