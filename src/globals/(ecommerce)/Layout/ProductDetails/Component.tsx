@@ -14,6 +14,9 @@ export const ProductDetails = async ({ variant, product }: { variant?: string; p
   try {
     const locale = (await getLocale()) as Locale;
     const { productDetails } = await getCachedGlobal("shopLayout", locale, 1)();
+    console.log("Details===>>>", productDetails);
+
+    console.log("Products===>>>", product);
 
     let ProductDetailsComponent: ReactNode = null;
     switch (productDetails.type) {

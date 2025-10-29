@@ -28,8 +28,7 @@ const blockComponents = {
   videosBlock: VideosBlock,
   productCatalogBlock: ProductCatalogBlock,
   testimonialBlock: TestimonialBlock,
-  tilesviewHero: TilesviewHero
-
+  tilesviewHero: TilesviewHero,
 };
 
 export const RenderBlocks = ({ blocks }: { blocks: Page["layout"][0][] }) => {

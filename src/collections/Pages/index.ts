@@ -30,12 +30,9 @@ import { HeroBlock, ProductCatalogBlock, TestimonialBlock, VideosBlock } from "@
 import { TilesviewHero } from "@/blocks/TilesviewHero/config";
 import { isAdmin, isManager } from "@/access/hasRole";
 
-
-
-
 // Allow admins/managers to read all, others only published
 const adminacess: Access = (args) => {
-  if (isAdmin(args) ) {
+  if (isAdmin(args)) {
     return true;
   }
   // fallback to published only
@@ -45,7 +42,6 @@ const adminacess: Access = (args) => {
     },
   };
 };
-
 
 export const Pages: CollectionConfig<"pages"> = {
   slug: "pages",
@@ -96,6 +92,13 @@ export const Pages: CollectionConfig<"pages"> = {
   },
   fields: [
     {
+      name: "tenant",
+      type: "relationship",
+      relationTo: "tenants",
+      required: true,
+      admin: { position: "sidebar" },
+    },
+    {
       name: "title",
       type: "text",
       required: true,
@@ -128,7 +131,7 @@ export const Pages: CollectionConfig<"pages"> = {
                 VideosBlock,
                 ProductCatalogBlock,
                 TestimonialBlock,
-               TilesviewHero,
+                TilesviewHero,
               ],
               required: true,
               admin: {
