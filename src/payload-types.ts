@@ -80,6 +80,7 @@ export interface Config {
     productCategories: ProductCategory;
     productSubCategories: ProductSubCategory;
     productReviews: ProductReview;
+    tenants: Tenant;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -114,6 +115,7 @@ export interface Config {
     productCategories: ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
     productSubCategories: ProductSubCategoriesSelect<false> | ProductSubCategoriesSelect<true>;
     productReviews: ProductReviewsSelect<false> | ProductReviewsSelect<true>;
+    tenants: TenantsSelect<false> | TenantsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -211,6 +213,7 @@ export interface CustomerAuthOperations {
  */
 export interface Page {
   id: string;
+  tenant: string | Tenant;
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
@@ -328,6 +331,36 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenants".
+ */
+export interface Tenant {
+  id: string;
+  name: string;
+  slug: string;
+  domains?:
+    | {
+        domain?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  theme?: {
+    primaryColor?: string | null;
+    font?: string | null;
+  };
+  settings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2778,6 +2811,10 @@ export interface PayloadLockedDocument {
         value: string | ProductReview;
       } | null)
     | ({
+        relationTo: 'tenants';
+        value: string | Tenant;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -2854,6 +2891,7 @@ export interface PayloadMigration {
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
+  tenant?: T;
   title?: T;
   hero?:
     | T
@@ -4008,6 +4046,29 @@ export interface ProductReviewsSelect<T extends boolean = true> {
   author?: T;
   rating?: T;
   review?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenants_select".
+ */
+export interface TenantsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  domains?:
+    | T
+    | {
+        domain?: T;
+        id?: T;
+      };
+  theme?:
+    | T
+    | {
+        primaryColor?: T;
+        font?: T;
+      };
+  settings?: T;
   updatedAt?: T;
   createdAt?: T;
 }

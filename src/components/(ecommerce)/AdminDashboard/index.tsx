@@ -83,7 +83,7 @@ export const AdminDashboard = async (props: DashboardViewServerProps) => {
   return (
     <>
       <main className="gutter--left gutter--right dashboard__wrap">
-        {/* {beforeDashboard &&
+        {beforeDashboard &&
           RenderServerComponent({
             Component: beforeDashboard,
             importMap: payload.importMap,
@@ -96,7 +96,7 @@ export const AdminDashboard = async (props: DashboardViewServerProps) => {
               searchParams,
               user,
             } satisfies ServerProps,
-          })} */}
+          })}
         <section className="flex flex-wrap items-center gap-4">
           <h1 className="mr-auto">{t("adminDashboard:linkTitle")}</h1>
           <AdminSearch groups={groups} />

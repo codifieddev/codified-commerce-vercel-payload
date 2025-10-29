@@ -33,8 +33,6 @@ const ProductPage = async ({
     if (docs.length === 0) {
       notFound();
     }
-    console.log(docs[0]);
-    console.log(variant);
 
     return (
       <>

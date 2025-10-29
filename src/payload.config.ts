@@ -38,6 +38,7 @@ import { Header } from "./globals/Header/config";
 
 import { plugins } from "./plugins";
 import { getServerSideURL } from "./utilities/getURL";
+import { Tenants } from "./collections/Tenants/Tenants";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -56,12 +57,12 @@ export default buildConfig({
       Nav: {
         path: "@/components/AdminNavbar#AdminNavbar",
       },
-      beforeDashboard: ["@/components/BeforeDashboard#BeforeDashboard"],
-      // views: {
-      //   dashboard: {
-      //     Component: "@/components/(ecommerce)/AdminDashboard#AdminDashboard",
-      //   },
-      // },
+      // beforeDashboard: ["@/components/BeforeDashboard#BeforeDashboard"],
+      views: {
+        dashboard: {
+          Component: "@/components/(ecommerce)/AdminDashboard#AdminDashboard",
+        },
+      },
       beforeNavLinks: ["@/components/(ecommerce)/AdminDashboardNavLink#AdminDashboardNavLink"],
     },
     meta: {
@@ -129,6 +130,7 @@ export default buildConfig({
     ProductCategories,
     ProductSubCategories,
     ProductReviews,
+    Tenants,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [

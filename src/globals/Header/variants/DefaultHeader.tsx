@@ -117,7 +117,7 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
                 <Link
                   key={i}
                   href={item.href}
-                  className="rounded px-2 py-1 font-semibold text-white transition-colors hover:bg-white/10"
+                  className="rounded px-2 py-1 font-semibold text-black transition-colors hover:bg-white/10"
                 >
                   {item.label}
                 </Link>
@@ -145,8 +145,11 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
         </div>
         {/* Icons */}
         <div className="flex items-center gap-4">
-          <Link href="/account/orders" className="-m-2 flex cursor-pointer items-center gap-1 p-2 text-white">
-            <Phone color="white" width={24} height={24} /> Contact Us
+          <Link
+            href="/account/orders"
+            className="-m-2 flex cursor-pointer items-center gap-1 p-2 font-bold text-black"
+          >
+            <Phone color="black" width={24} height={24} /> Contact Us
           </Link>
           {!disableCart && (
             <>
@@ -160,11 +163,11 @@ export const DefaultHeader = ({ data, disableCart }: { data: Header; disableCart
               </button> */}
               <button onClick={toggleCart} className="relative -m-2 cursor-pointer p-2">
                 {totalQuantity && totalQuantity > 0 ? (
-                  <span className="bg-main-600 absolute top-0 right-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full text-xs text-white">
+                  <span className="bg-main-600 absolute top-0 right-0 flex aspect-square h-5 w-5 items-center justify-center rounded-full text-xs text-black">
                     {totalQuantity}
                   </span>
                 ) : null}
-                <ShoppingBagIcon color="white" width={24} height={24} />
+                <ShoppingBagIcon color="black" width={24} height={24} />
               </button>
             </>
           )}
